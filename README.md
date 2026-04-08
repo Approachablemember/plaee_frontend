@@ -59,12 +59,6 @@ You need Node.js 18 or higher installed on your machine.
 
 ### Installation
 
-First, navigate to the project directory:
-
-```bash
-cd prediction-market
-```
-
 Install the dependencies:
 
 ```bash
