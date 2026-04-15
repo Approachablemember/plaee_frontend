@@ -2,7 +2,8 @@ import { Event, Market, Outcome, Category } from '@/lib/types';
 import { PolymarketEvent, PolymarketMarket } from '@/lib/types/api';
 import { parsePrice } from '@/lib/utils';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://gamma-api.polymarket.com';
+// Use our Next.js API routes to avoid CORS issues
+const API_BASE_URL = '/api';
 
 /**
  * Map Polymarket category tags to our category type
@@ -87,7 +88,7 @@ function transformEvent(apiEvent: PolymarketEvent): Event {
 export async function fetchEvents(closed: boolean = false): Promise<Event[]> {
   try {
     const response = await fetch(`${API_BASE_URL}/events?closed=${closed}&limit=50`, {
-      next: { revalidate: 60 }, // Cache for 60 seconds
+      cache: 'no-store', // Disable cache to avoid issues with large responses
     });
 
     if (!response.ok) {
@@ -109,7 +110,7 @@ export async function fetchEvents(closed: boolean = false): Promise<Event[]> {
 export async function fetchEventById(eventId: string): Promise<Event | null> {
   try {
     const response = await fetch(`${API_BASE_URL}/events/${eventId}`, {
-      next: { revalidate: 30 },
+      cache: 'no-store', // Disable cache to avoid issues with large responses
     });
 
     if (!response.ok) {
